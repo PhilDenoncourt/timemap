@@ -1,4 +1,7 @@
+.idea/
 build/
 node_modules/
 config.js
 dev.config.js
+
+src/\.DS_Store

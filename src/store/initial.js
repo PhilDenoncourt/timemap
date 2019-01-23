@@ -16,7 +16,7 @@ const initial = {
     sources: {},
     sites: [],
     tags: {},
-    notifications: [],
+    notifications: []
   },
 
   /*
@@ -29,7 +29,7 @@ const initial = {
    */
   app: {
     errors: {
-      source: null,
+      source: null
     },
     highlighted: null,
     selected: [],
@@ -39,32 +39,48 @@ const initial = {
       current: null
     },
     filters: {
-      timerange: [
-        new Date(2013, 2, 23, 12),
-        new Date(2016, 2, 23, 12)
-      ],
-      mapBounds: null,
       tags: [],
       categories: [],
       views: {
         events: true,
-        coevents: false,
         routes: false,
         sites: true
-      },
+      }
     },
     isMobile: (/Mobi/.test(navigator.userAgent)),
     language: 'en-US',
-    mapAnchor: [31.356397, 34.784818],
-    zoomLevels: [
-      { label: '3 years', duration: 1576800 },
-      { label: '3 months', duration: 129600 },
-      { label: '3 days', duration: 4320 },
-      { label: '12 hours', duration: 720 },
-      { label: '2 hours', duration: 120 },
-      { label: '30 min', duration: 30 },
-      { label: '10 min', duration: 10 }
-    ],
+    map: {
+      anchor: [31.356397, 34.784818],
+      startZoom: 11,
+      minZoom: 7,
+      maxZoom: 18,
+      bounds: null,
+      maxBounds: [[180, -180], [-180, 180]]
+    },
+    timeline: {
+      dimensions: {
+        height: 140,
+        width: 0,
+        width_controls: 100,
+        height_controls: 115,
+        margin_left: 200,
+        margin_top: 20,
+        trackHeight: 80
+      },
+      range: [
+        new Date(2013, 2, 23, 12),
+        new Date(2016, 2, 23, 12)
+      ],
+      zoomLevels: [
+        { label: '3 years', duration: 1576800 },
+        { label: '3 months', duration: 129600 },
+        { label: '3 days', duration: 4320 },
+        { label: '12 hours', duration: 720 },
+        { label: '2 hours', duration: 120 },
+        { label: '30 min', duration: 30 },
+        { label: '10 min', duration: 10 }
+      ]
+    },
     flags: {
       isFetchingDomain: false,
       isFetchingSources: false,
@@ -81,9 +97,10 @@ const initial = {
    *   as well as dom elements to attach SVG
    */
   ui: {
+    tiles: 'openstreetmap', // ['openstreetmap', 'streets', 'satellite']
     style: {
       categories: {
-        default: '#f3de2c',
+        default: '#f3de2c'
       },
       narratives: {
         default: {
@@ -91,25 +108,32 @@ const initial = {
           stroke: 'red',
           strokeWidth: 3
         }
+      },
+      shapes: {
+        default: {
+          stroke: 'blue',
+          strokeWidth: 3,
+          opacity: 0.9
+        }
       }
     },
     dom: {
-      timeline: "timeline",
-      timeslider: "timeslider",
-      map: "map"
-    },
+      timeline: 'timeline',
+      timeslider: 'timeslider',
+      map: 'map'
+    }
   }
-};
+}
 
-let appStore;
+let appStore
 if (process.env.store) {
-  appStore = mergeDeepLeft(process.env.store, initial);
+  appStore = mergeDeepLeft(process.env.store, initial)
 } else {
   appStore = initial
 }
 
 // NB: config.js dates get implicitly converted to strings in mergeDeepLeft
-appStore.app.filters.timerange[0] = new Date(appStore.app.filters.timerange[0])
-appStore.app.filters.timerange[1] = new Date(appStore.app.filters.timerange[1])
+appStore.app.timeline.range[0] = new Date(appStore.app.timeline.range[0])
+appStore.app.timeline.range[1] = new Date(appStore.app.timeline.range[1])
 
 export default appStore
